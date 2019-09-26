@@ -22,6 +22,7 @@ class App extends Component {
       spotifyApi.getMyRecentlyPlayedTracks()
       .then(ans => console.log(ans))
       .catch(err => console.log(err))
+      
     }
   }
 
