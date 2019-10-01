@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import SpotifyWebApi from 'spotify-web-api-js';
+import ImageTextGrid from './components/ImageTextGrid'
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -13,16 +14,32 @@ class App extends Component {
     }
     this.state = {
       loggedIn: access_token ? true : false,
-      nowPlaying: { name: 'Not Checked', albumArt: '' }
+      nowPlaying: { name: 'Not Checked', albumArt: '' },
+      lastPlayedTracks: []
     }
   }
 
-  componentDidMount(){
+  async componentDidMount(){
     if(this.state.loggedIn){
-      spotifyApi.getMyRecentlyPlayedTracks()
-      .then(ans => console.log(ans))
-      .catch(err => console.log(err))
-      
+      try{
+        const data = await spotifyApi.getMyRecentlyPlayedTracks();
+        const lastPlayedArrOfTracks = 
+              data.items.map(async item => {
+                const track = await spotifyApi.getTrack(item.track.id);
+                return {
+                  name: track.name,
+                  albumArt: track.album.images[0].url
+                }});
+        
+        Promise.all(lastPlayedArrOfTracks)
+          .then(data => {
+            console.log("settting state to", data);
+            this.setState({lastPlayedTracks: data})
+          })     
+      }
+      catch(err){
+        console.log(err)
+      }
     }
   }
 
@@ -57,18 +74,21 @@ class App extends Component {
     return (
       <div className="App">
         <a href='http://localhost:8888' > Login to Spotify </a>
-        <div>
+        <h2>
           Now Playing: { this.state.nowPlaying.name }
-        </div>
+        </h2>
         <div>
-          <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }}/>
+          <img src={this.state.nowPlaying.albumArt} alt="Currently Playing " style={{ height: 200, width: 200, borderRadius: '30%', padding: '10px'}}/>
         </div>
         { this.state.loggedIn &&
           <button onClick={() => this.getNowPlaying()}>
             Check Now Playing
           </button>
         }
+        <h2>resently played:</h2>
+        <ImageTextGrid tracksArr={this.state.lastPlayedTracks}/>
       </div>
+
     );
   }
 
