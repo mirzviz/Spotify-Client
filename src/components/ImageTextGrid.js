@@ -1,23 +1,29 @@
 import React from 'react';
-import './ImageTextGrid.css';
+import style from 'styled-components';
+import {StyledImg} from '../global/styles'
+
+const StyledGrid = style.div`
+    display: grid;
+    grid-template-columns: auto auto auto;
+`;
+
 
 export default ({tracksArr}) => {
-    const imgStyle = {
-        borderRadius: '30%',
-        width: '200px'
-    }
-
     return(
-        <div className='grid-container'>
-        {   
-             tracksArr
-                .map((track, i) => <div className='grid-item' key={i}>
-                                        <h4>{track.name}</h4>
-                                        <img src={track.albumArt} 
-                                            alt={track.name}
-                                            style={imgStyle}/>
-                                        </div>)
-        }
-        </div>
+        <React.Fragment>
+            <h2>resently played:</h2>
+            <StyledGrid>
+            {   
+                tracksArr
+                    .map((track, i) => <div className='grid-item' key={i}>
+                                            <h4>{track.name}</h4>
+                                            <StyledImg
+                                                src={track.albumArt} 
+                                                alt={track.name}
+                                            />
+                                            </div>)
+            }
+            </StyledGrid>
+        </React.Fragment>
     );
 }

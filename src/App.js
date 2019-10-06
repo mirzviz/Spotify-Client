@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import './App.css';
 import SpotifyWebApi from 'spotify-web-api-js';
 import ImageTextGrid from './components/ImageTextGrid'
+import style from 'styled-components';
+import {StyledImg} from './global/styles'
+import {StyledButton} from './global/styles'
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -33,7 +36,7 @@ class App extends Component {
         
         Promise.all(lastPlayedArrOfTracks)
           .then(data => {
-            console.log("settting state to", data);
+            //console.log("settting state to", data);
             this.setState({lastPlayedTracks: data})
           })     
       }
@@ -41,21 +44,22 @@ class App extends Component {
         console.log(err)
       }
     }
-  }
+  };
 
-  getNowPlaying(){
-    spotifyApi.getMyCurrentPlaybackState()
-      .then(res => {
-        if(res){
-          this.setState({
-            nowPlaying: {
-              name: res.item.name,
-              albumArt: res.item.album.images[0].url
-            }
-          });
-        }
-      })
-      .catch(err=>console.log(err))
+  getNowPlaying = async () => {
+    try{
+      const reply = await spotifyApi.getMyCurrentPlaybackState();
+      if(reply){
+        this.setState({
+          nowPlaying: {
+            name: reply.item.name,
+            albumArt: reply.item.album.images[0].url
+          }
+        });
+      }
+    }
+    catch(e){console.log(e);}
+    
   }
 
   getHashParams () {
@@ -73,20 +77,25 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <a href='http://localhost:8888' > Login to Spotify </a>
+        <a href='http://localhost:8888'>
+          <StyledButton primary href='http://localhost:8888' >
+            Login to Spotify 
+          </StyledButton>
+        </a>
         <h2>
           Now Playing: { this.state.nowPlaying.name }
         </h2>
         <div>
-          <img src={this.state.nowPlaying.albumArt} alt="Currently Playing " style={{ height: 200, width: 200, borderRadius: '30%', padding: '10px'}}/>
+          <StyledImg src={this.state.nowPlaying.albumArt} alt="Currently Playing " />
         </div>
         { this.state.loggedIn &&
-          <button onClick={() => this.getNowPlaying()}>
+          <React.Fragment>
+          <StyledButton onClick={this.getNowPlaying}>
             Check Now Playing
-          </button>
+          </StyledButton>
+          <ImageTextGrid tracksArr={this.state.lastPlayedTracks}/>
+          </React.Fragment>
         }
-        <h2>resently played:</h2>
-        <ImageTextGrid tracksArr={this.state.lastPlayedTracks}/>
       </div>
 
     );
