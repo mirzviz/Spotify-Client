@@ -3,8 +3,11 @@ import './App.css';
 import SpotifyWebApi from 'spotify-web-api-js';
 import ImageTextGrid from './components/ImageTextGrid'
 import style from 'styled-components';
-import {StyledImg} from './global/styles'
-import {StyledButton} from './global/styles'
+import {StyledImg} from './global/styles';
+import {StyledButton} from './global/styles';
+import Header from './components/Header';
+import NavBar from './components/NavBar';
+import SignIn from './components/SignIn';
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -77,11 +80,17 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <a href='http://localhost:8888'>
-          <StyledButton primary href='http://localhost:8888' >
-            Login to Spotify 
-          </StyledButton>
-        </a>
+
+        <NavBar>
+          about
+          links
+          tabs
+        </NavBar>
+
+        <Header/>
+
+        <SignIn/>
+
         <h2>
           Now Playing: { this.state.nowPlaying.name }
         </h2>
@@ -93,9 +102,11 @@ class App extends Component {
           <StyledButton onClick={this.getNowPlaying}>
             Check Now Playing
           </StyledButton>
+
           <ImageTextGrid tracksArr={this.state.lastPlayedTracks}/>
           </React.Fragment>
         }
+        
       </div>
 
     );
