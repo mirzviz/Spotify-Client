@@ -4,7 +4,7 @@ import toolImage from '../resorces/tool.jpg'
 
 const HeaderImage = style.header`
   min-height: 100vh;
-  background: url(${toolImage}) center/cover fixed no-repeat;
+  background: url(${props => props.imgLink || toolImage}) center/cover fixed no-repeat;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -14,18 +14,15 @@ const HeaderImage = style.header`
 
 const SyledHeader = style.h1`
   text-transform: uppercase;
-  color: white;
+  color: #b7c4b9;
   font-size: 70px;
   padding: 60px;
 `
-export default class Header extends Component {
-    render() {
-        return (
-            <>
-            <HeaderImage>
-            <SyledHeader>Welcome! scroll down</SyledHeader>
-            </HeaderImage>
-            </>
-        )
-    }
+
+export default ({img, text}) => {
+  return <>
+    <HeaderImage imgLink={img}>
+      <SyledHeader>{text || 'Welcome!'}</SyledHeader>
+    </HeaderImage>
+  </>
 }
