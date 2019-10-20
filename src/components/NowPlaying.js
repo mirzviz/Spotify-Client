@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import {StyledImg} from '../global/styles';
-import {StyledButton} from '../global/styles';
+import {StyledImg} from '../global/GlobalStyledComponents';
+import {StyledButton} from '../global/GlobalStyledComponents';
 import UIGridItem from '../components/UIGridItem';
+import styled from 'styled-components';
+import {colors} from '../global/helperFunctions'
 
-export default function NowPlaying({nowPlaying, getNowPlaying}) {
+ const NowPlaying = ({className, nowPlaying, getNowPlaying}) => {
     return (
-        <>
+        <div className={className}>
               <StyledButton onClick={getNowPlaying}>
                   Check Now Playing
                </StyledButton>
@@ -14,6 +16,10 @@ export default function NowPlaying({nowPlaying, getNowPlaying}) {
                 link={nowPlaying.link}
                 art={nowPlaying.albumArt}
               />
-        </>
+        </div>
     )
 }
+
+export default styled(NowPlaying)`
+
+`;

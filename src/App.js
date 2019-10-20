@@ -3,13 +3,15 @@ import './App.css';
 import SpotifyWebApi from 'spotify-web-api-js';
 import ResentlyPlayed from './components/ResentlyPlayed'
 import style from 'styled-components';
-import {StyledImg} from './global/styles';
-import {StyledButton} from './global/styles';
+import {StyledImg} from './global/GlobalStyledComponents';
+import {StyledButton} from './global/GlobalStyledComponents';
 import Header from './components/Header';
 import NavBar from './components/NavBar';
 import SignIn from './components/SignIn';
 import NowPlaying from './components/NowPlaying'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import TopArtists from './components/TopArtists';
+import GlobalStyles from './global/GlobalStyles';
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -29,23 +31,37 @@ class App extends Component {
       loggedIn: access_token ? true : false,
       nowPlaying: { name: 'Not Checked', albumArt: '' },
       lastPlayedTracks: [],
-      topTracks: null,
+      topArtists: [],
       usersName: null
     };
   }
 
   async componentDidMount(){
-    let me = await spotifyApi.getMe();
-
-    let reply = await spotifyApi.getMyTopArtists();
-    this.setState({
-      topTracks: reply.items,
-      usersName: me.display_name
-    });
-    console.log(reply);
+    if(this.state.loggedIn){
+      let me = await spotifyApi.getMe();
+      this.setState({
+        usersName: me.display_name
+      });
+    }
   };
 
-  getResentlyPlayed = async() => {
+  getTopArtists = async () => {
+    console.log('in get top artists');
+    if(this.state.loggedIn){
+      try{
+        let reply = await spotifyApi.getMyTopArtists();
+        console.log(reply.items);
+        this.setState({
+          topArtists: reply.items
+        });
+      }
+      catch(e){
+        console.log(e);
+      }
+    }
+  }
+
+  getResentlyPlayed = async () => {
     if(this.state.loggedIn){
       try{
         const data = await spotifyApi.getMyRecentlyPlayedTracks();
@@ -108,52 +124,57 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-
+        <GlobalStyles></GlobalStyles>
         <Router>
+        <NavBar>
+          home
+          history
+          top-artists
+        </NavBar>
+
           <Switch>
+
             <Route path="/signin" exact>
               <SignIn/>
             </Route>
-            
-            <Route path="/" exact>
 
-              <NavBar>
-                about
-                links
-                tabs
-              </NavBar>
+            <Route path="/history" exact>
+            { 
+              <ResentlyPlayed 
+                tracksArr={this.state.lastPlayedTracks}
+                getResentlyPlayed={this.getResentlyPlayed}
+              />
+            }
+            </Route>
 
+            <Route path="/top-artists" exact>
+            { 
+              <TopArtists
+                topArtistsArr={this.state.topArtists}
+                getTopArtists={this.getTopArtists}
+              />
+            }
+            </Route>
+
+            <Route path="/home" exact>
               <Header 
-                img={this.state.topTracks ? this.state.topTracks[0].images[0].url : null }
+                img={this.state.topArtists.length != 0 ? this.state.topArtists[0].images[0].url : null }
                 text={this.state.usersName ? `Welcome ${this.state.usersName}!` : null}
               />
-
-              {/* <SignIn/> */}
               <StyledButton onClick={this.refreshTheToken}>refesh access token</StyledButton>
-
-
-
-
               { this.state.loggedIn &&
                 <>
                     <NowPlaying 
                       nowPlaying={this.state.nowPlaying}
-                      getNowPlaying={this.getNowPlaying} />
-                    <ResentlyPlayed 
-                      tracksArr={this.state.lastPlayedTracks}
-                      getResentlyPlayed={this.getResentlyPlayed}
-                      />
+                      getNowPlaying={this.getNowPlaying} 
+                    />
+                    
                 </>
               }
-
           </Route>
         </Switch>
       </Router>
-
-        
-        
-      </div>
-
+    </div>
     );
   }
 

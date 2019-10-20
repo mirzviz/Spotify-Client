@@ -1,18 +1,14 @@
 import React from 'react';
-import style from 'styled-components';
-import {StyledImg, StyledButton} from '../global/styles';
-import {Link} from 'react-router-dom';
+import styled from 'styled-components';
+import {StyledButton} from '../global/GlobalStyledComponents';
 import UIGridItem from './UIGridItem';
-
-const StyledGrid = style.div`
-    display: grid;
-    grid-template-columns: auto auto auto;
-`;
+import {StyledGrid, setColor, setLetterSpacing} from '../global/GlobalStyledComponents';
 
 
-export default ({tracksArr, getResentlyPlayed}) => {
+
+const ResentlyPlayed = ({className , tracksArr, getResentlyPlayed}) => {
     return(
-        <React.Fragment>
+        <div className={className}>
             <h1>Resently Played:</h1>
             <StyledButton onClick={getResentlyPlayed}>
                 Check Resently Played
@@ -29,6 +25,10 @@ export default ({tracksArr, getResentlyPlayed}) => {
                     )
             }
             </StyledGrid>
-        </React.Fragment>
+        </div>
     );
 }
+
+export default styled(ResentlyPlayed)`
+    margin-top: 5rem;
+`

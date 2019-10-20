@@ -1,9 +1,10 @@
 import style from 'styled-components';
 import React, { Component } from 'react';
-import toolImage from '../resorces/tool.jpg'
+import toolImage from '../resorces/tool.jpg';
+import {setFont, setLetterSpacing} from '../global/helperFunctions';
 
 const HeaderImage = style.header`
-  min-height: 100vh;
+  min-height: 50vh;
   background: url(${props => props.imgLink || toolImage}) center/cover fixed no-repeat;
   display:flex;
   align-items:center;
@@ -13,6 +14,8 @@ const HeaderImage = style.header`
 `
 
 const SyledHeader = style.h1`
+  ${setFont.slanted}
+  ${setLetterSpacing(10)}
   text-transform: uppercase;
   color: #b7c4b9;
   font-size: 70px;
