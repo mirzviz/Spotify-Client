@@ -2,9 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {StyledButton} from '../global/GlobalStyledComponents';
 import UIGridItem from './UIGridItem';
-import {StyledGrid, setColor, setLetterSpacing} from '../global/GlobalStyledComponents';
-
-
+import {media} from "../global/helperFunctions"
 
 const ResentlyPlayed = ({className , tracksArr, getResentlyPlayed}) => {
     return(
@@ -13,7 +11,7 @@ const ResentlyPlayed = ({className , tracksArr, getResentlyPlayed}) => {
             <StyledButton onClick={getResentlyPlayed}>
                 Check Resently Played
             </StyledButton>
-            <StyledGrid>
+            <div className="StyledGrid">
             {   
                 tracksArr
                     .map((track, i) => <UIGridItem 
@@ -24,11 +22,48 @@ const ResentlyPlayed = ({className , tracksArr, getResentlyPlayed}) => {
                                         />
                     )
             }
-            </StyledGrid>
+            </div>
         </div>
     );
 }
 
 export default styled(ResentlyPlayed)`
     margin-top: 5rem;
+    max-width: 80%;
+    margin: 0 auto;
+    .StyledGrid{
+        display: grid;
+        /* grid-template-columns: 1fr 1fr; */
+    }   
+
+    /* @media (min-width: 800px){
+            .StyledGrid{
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+      } */
+
+    ${media.phone` 
+        .StyledGrid{
+            grid-template-columns: 1fr;
+        }
+        `
+    }
+    ${media.tablet` 
+        .StyledGrid{
+            grid-template-columns: 1fr 1fr;
+        }
+        `
+    }
+    ${media.desktop` 
+        .StyledGrid{
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        `
+    }
+    ${media.large` 
+        .StyledGrid{
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+        `
+    }
 `

@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import {StyledButton} from '../global/GlobalStyledComponents';
-import {Link} from 'react-router-dom';
 import UIGridItem from './UIGridItem';
 import {StyledGrid} from '../global/GlobalStyledComponents';
+import {media} from "../global/helperFunctions"
 
 const TopArtists = ({className, topArtistsArr, getTopArtists}) => {
     return(
@@ -12,7 +12,7 @@ const TopArtists = ({className, topArtistsArr, getTopArtists}) => {
             <StyledButton onClick={getTopArtists}>
                 Check Top Artists
             </StyledButton>
-            <StyledGrid>
+            <div className="StyledGrid">
             {   
                 topArtistsArr
                     .map((artist, i) => <UIGridItem 
@@ -23,12 +23,49 @@ const TopArtists = ({className, topArtistsArr, getTopArtists}) => {
                                         />
                     )
             }
-            </StyledGrid>
+            </div>
             </div>
     );
 }
 
 export default styled(TopArtists)`
       margin-top: 5rem;  
+      max-width: 80%;
+        margin: 0 auto;
+      .StyledGrid{
+        display: grid;
+      }
+
+      @media (min-width: 800px){
+            .StyledGrid{
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+      }
+      
+      ${media.phone` 
+        .StyledGrid{
+            grid-template-columns: 1fr;
+        }
+        `
+    }
+    ${media.tablet` 
+        .StyledGrid{
+            grid-template-columns: 1fr 1fr;
+        }
+        `
+    }
+    ${media.desktop` 
+        .StyledGrid{
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        `
+    }
+    ${media.large` 
+        .StyledGrid{
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+        `
+    }
+
 `;
 

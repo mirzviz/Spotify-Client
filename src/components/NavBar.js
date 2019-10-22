@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import style from 'styled-components';
+import styled from 'styled-components';
 import {setTransition, setFont, setRem} from '../global/helperFunctions';
 
 
@@ -23,7 +23,7 @@ export default function NavBar({children}) {
 }
 
 
-const StyledNavBar = style.div`
+const StyledNavBar = styled.div`
     ${setFont.slanted}
     font-size: ${setRem(18)};
     overflow: hidden;
@@ -46,7 +46,8 @@ const StyledNavBar = style.div`
     opacity: 0.8;
 `;
 
-const NavBarItem = style.div`
+const NavBarItem = styled.div`
+    height: 100%;
     display: block;
     color: #f2f2f2;
     padding: 1rem 2rem;

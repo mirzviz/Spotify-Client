@@ -12,6 +12,7 @@ import NowPlaying from './components/NowPlaying'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import TopArtists from './components/TopArtists';
 import GlobalStyles from './global/GlobalStyles';
+import Banner from './components/Banner';
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -126,12 +127,13 @@ class App extends Component {
       <div className="App">
         <GlobalStyles></GlobalStyles>
         <Router>
-        <NavBar>
-          home
-          history
-          top-artists
-        </NavBar>
-
+          <Banner
+            greeting="welcome to"
+            title="Spotifity"
+            text="Your Spotify Friend"
+          />
+          <NavBar>home history top-artists</NavBar>
+          
           <Switch>
 
             <Route path="/signin" exact>
@@ -139,21 +141,17 @@ class App extends Component {
             </Route>
 
             <Route path="/history" exact>
-            { 
               <ResentlyPlayed 
                 tracksArr={this.state.lastPlayedTracks}
                 getResentlyPlayed={this.getResentlyPlayed}
               />
-            }
             </Route>
 
             <Route path="/top-artists" exact>
-            { 
               <TopArtists
                 topArtistsArr={this.state.topArtists}
                 getTopArtists={this.getTopArtists}
               />
-            }
             </Route>
 
             <Route path="/home" exact>

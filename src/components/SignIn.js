@@ -16,6 +16,7 @@ const SignIn = ({className}) => {
 }
 
 export default styled(SignIn)`
+    overflow: hidden;
     background: linear-gradient(to right, #ba5370, #f4e2d8); 
     height: 100vh;
     .but{
