@@ -17,7 +17,7 @@ const TopArtists = ({className, topArtistsArr, getTopArtists}) => {
                 topArtistsArr
                     .map((artist, i) => <UIGridItem 
                                             key={i}
-                                            caption={artist.name}
+                                            caption={`${i+1}: ${artist.name}`}
                                             link={artist.external_urls.spotify}
                                             art={artist.images[0].url}
                                         />

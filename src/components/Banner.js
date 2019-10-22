@@ -49,7 +49,7 @@ export default styled(Banner)`
   overflow: hidden;
   background: rgba(0, 0, 0, 0.7);
   text-align: center;
-  padding: 7rem 0rem 0rem 0;
+  padding: 4rem 0rem 4rem 0;
   ${setLetterSpacing(3)}
   color: ${setColor.mainWhite};
   h1 {

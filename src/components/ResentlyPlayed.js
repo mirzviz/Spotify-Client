@@ -7,7 +7,7 @@ import {media} from "../global/helperFunctions"
 const ResentlyPlayed = ({className , tracksArr, getResentlyPlayed}) => {
     return(
         <div className={className}>
-            <h1>Resently Played:</h1>
+            <h1>Playing History:</h1>
             <StyledButton onClick={getResentlyPlayed}>
                 Check Resently Played
             </StyledButton>
@@ -16,7 +16,7 @@ const ResentlyPlayed = ({className , tracksArr, getResentlyPlayed}) => {
                 tracksArr
                     .map((track, i) => <UIGridItem 
                                             key={i}
-                                            caption={track.name}
+                                            caption={`${i+1}: ${track.name}`}
                                             link={track.linkToTrack}
                                             art={track.albumArt}
                                         />

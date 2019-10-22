@@ -50,8 +50,7 @@ class App extends Component {
     console.log('in get top artists');
     if(this.state.loggedIn){
       try{
-        let reply = await spotifyApi.getMyTopArtists();
-        console.log(reply.items);
+        let reply = await spotifyApi.getMyTopArtists({limit: 50});
         this.setState({
           topArtists: reply.items
         });
@@ -65,7 +64,7 @@ class App extends Component {
   getResentlyPlayed = async () => {
     if(this.state.loggedIn){
       try{
-        const data = await spotifyApi.getMyRecentlyPlayedTracks();
+        const data = await spotifyApi.getMyRecentlyPlayedTracks({limit: 50});
         const lastPlayedArrOfTracks = 
               data.items.map(item => (
                 {
