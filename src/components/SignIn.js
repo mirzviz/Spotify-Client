@@ -6,8 +6,8 @@ import { setBackground, setLetterSpacing, setShadow, setTransition } from '../gl
 const SignIn = ({className}) => {
     return (
         <div className={className}>
-            <a href='http://localhost:8888/login'>
-            <StyledButton className="but" href='http://localhost:8888/login' >
+            <a href='https://spotifity-server.herokuapp.com/login'>
+            <StyledButton className="but" >
                 Login to Spotify 
             </StyledButton>
             </a>
