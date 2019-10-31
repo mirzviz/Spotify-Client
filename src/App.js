@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import SpotifyWebApi from 'spotify-web-api-js';
-import ResentlyPlayed from './components/ResentlyPlayed'
-import style from 'styled-components';
-import {StyledImg} from './global/GlobalStyledComponents';
+import ResentlyPlayed from './components/History'
 import {StyledButton} from './global/GlobalStyledComponents';
 import Header from './components/Header';
 import NavBar from './components/NavBar';
@@ -13,13 +11,17 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import TopArtists from './components/TopArtists';
 import GlobalStyles from './global/GlobalStyles';
 import Banner from './components/Banner';
+import Artist from './components/Artist';
+import SongInfo from './components/SongInfo'
+
 
 const spotifyApi = new SpotifyWebApi();
 
-
 //http://localhost:8888/refresh_token?refresh_token=AQCtXFaSYVTJ_r9BFHFI8IKHVOcdE2RkG6a2ppBY8LhuHlXbY3hLt8sk02yoZUFwuF2LgYFIPOsjSyyFuAydRrblJnVSUUXuCBhDJ_wK2obME_uEASqyJ5yJBUTJ3XutJanA2g
+const code = `
 
-class App extends Component {
+`;
+class App extends React.Component {
   constructor(){
     super();
     const {access_token, refresh_token} = this.getHashParams();
@@ -47,7 +49,6 @@ class App extends Component {
   };
 
   getTopArtists = async () => {
-    console.log('in get top artists');
     if(this.state.loggedIn){
       try{
         let reply = await spotifyApi.getMyTopArtists({limit: 50});
@@ -68,6 +69,7 @@ class App extends Component {
         const lastPlayedArrOfTracks = 
               data.items.map(item => (
                 {
+                  id: item.track.id,
                   name: item.track.name,
                   albumArt: item.track.album.images[0].url,
                   linkToTrack: item.track.external_urls.spotify
@@ -146,12 +148,16 @@ class App extends Component {
               />
             </Route>
 
+            <Route path="/history/:id" component={SongInfo}/>
+
             <Route path="/top-artists" exact>
               <TopArtists
                 topArtistsArr={this.state.topArtists}
                 getTopArtists={this.getTopArtists}
               />
             </Route>
+
+            <Route path="/top-artists/:id" component={Artist}/>
 
             <Route path="/home" exact>
               <Header 

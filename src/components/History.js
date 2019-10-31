@@ -4,7 +4,7 @@ import {StyledButton} from '../global/GlobalStyledComponents';
 import UIGridItem from './UIGridItem';
 import {media} from "../global/helperFunctions"
 
-const ResentlyPlayed = ({className , tracksArr, getResentlyPlayed}) => {
+const History = ({className , tracksArr, getResentlyPlayed}) => {
     return(
         <div className={className}>
             <h1>Playing History:</h1>
@@ -16,8 +16,8 @@ const ResentlyPlayed = ({className , tracksArr, getResentlyPlayed}) => {
                 tracksArr
                     .map((track, i) => <UIGridItem 
                                             key={i}
+                                            id={track.id}
                                             caption={`${i+1}: ${track.name}`}
-                                            link={track.linkToTrack}
                                             art={track.albumArt}
                                         />
                     )
@@ -27,7 +27,7 @@ const ResentlyPlayed = ({className , tracksArr, getResentlyPlayed}) => {
     );
 }
 
-export default styled(ResentlyPlayed)`
+export default styled(History)`
     margin-top: 5rem;
     max-width: 80%;
     margin: 0 auto;

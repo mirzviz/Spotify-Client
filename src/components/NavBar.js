@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-relative-link';
 import styled from 'styled-components';
 import {setTransition, setFont, setRem} from '../global/helperFunctions';
 

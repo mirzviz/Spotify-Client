@@ -2,6 +2,7 @@ import React from 'react';
 import {StyledImg} from '../global/GlobalStyledComponents';
 import styled from 'styled-components';
 import {setTransition} from '../global/helperFunctions';
+import {Link} from 'react-router-relative-link';
 
  const StyledImg2 = styled.img`
     border-radius: 50%;
@@ -10,15 +11,16 @@ import {setTransition} from '../global/helperFunctions';
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `;
 
-const UIGridItem = ({className, caption, link, art}) => {
+const UIGridItem = ({className, caption, art, id}) => {
     return <div className={className} >
                 <h3>{caption}</h3>
-                <a href={link} target="_blank" >
+                <Link to={id}>
                     <img
                         src={art} 
                         alt={caption}
                     />
-                </a>
+                </Link>
+
             </div>
     
 }
